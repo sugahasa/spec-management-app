@@ -34,6 +34,18 @@ export default function RootLayout({
                 画面
               </Link>
             </nav>
+            <div className="ml-auto">
+              <a
+                href="/api/knowledge-base"
+                download="knowledge-base.md"
+                className="flex items-center gap-1.5 text-sm px-3 py-1.5 border border-gray-300 rounded-lg text-gray-600 hover:border-indigo-400 hover:text-indigo-600 transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                MD エクスポート
+              </a>
+            </div>
           </div>
         </header>
         <main className="flex-1 max-w-6xl mx-auto w-full px-4 py-8">{children}</main>

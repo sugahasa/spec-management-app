@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { generateAndSave } from "@/lib/markdown";
 
 type Params = { params: Promise<{ featureId: string }> };
 
@@ -21,7 +22,7 @@ export async function POST(req: Request, { params }: Params) {
       status: status ?? "DRAFT",
       order: (last?.order ?? 0) + 1,
     },
-    include: {},
   });
+  await generateAndSave();
   return NextResponse.json(spec, { status: 201 });
 }

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { generateAndSave } from "@/lib/markdown";
 
 export async function GET() {
   const features = await prisma.feature.findMany({
@@ -19,5 +20,6 @@ export async function POST(req: Request) {
     data: { name, description: description ?? "", order: (last?.order ?? 0) + 1 },
     include: { specs: true, screens: { include: { screen: true } } },
   });
+  await generateAndSave();
   return NextResponse.json(feature, { status: 201 });
 }

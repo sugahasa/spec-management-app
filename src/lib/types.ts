@@ -1,6 +1,14 @@
 export type SpecPriority = "HIGH" | "MEDIUM" | "LOW";
 export type SpecStatus = "DRAFT" | "REVIEW" | "APPROVED" | "DEPRECATED";
 
+export interface ScreenImage {
+  id: string;
+  screenId: string;
+  path: string;
+  order: number;
+  createdAt: string;
+}
+
 export interface FeatureScreen {
   id: string;
   featureId: string;
@@ -13,8 +21,8 @@ export interface Screen {
   name: string;
   description: string;
   path: string;
-  imagePath: string;
   order: number;
+  images: ScreenImage[];
   features: FeatureScreen[];
   createdAt: string;
   updatedAt: string;
