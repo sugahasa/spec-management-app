@@ -5,11 +5,11 @@ type Params = { params: Promise<{ screenId: string }> };
 
 export async function PUT(req: Request, { params }: Params) {
   const { screenId } = await params;
-  const { name, description, path } = await req.json();
+  const { name, description, path, imagePath } = await req.json();
   const screen = await prisma.screen.update({
     where: { id: screenId },
-    data: { name, description: description ?? "", path: path ?? "" },
-    include: { specs: { include: { specification: { include: { feature: true } } } } },
+    data: { name, description: description ?? "", path: path ?? "", imagePath: imagePath ?? "" },
+    include: { features: { include: { feature: true } } },
   });
   return NextResponse.json(screen);
 }

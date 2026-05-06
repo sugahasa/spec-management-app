@@ -4,13 +4,7 @@ import { prisma } from "@/lib/prisma";
 export async function GET() {
   const screens = await prisma.screen.findMany({
     include: {
-      specs: {
-        include: {
-          specification: {
-            include: { feature: true },
-          },
-        },
-      },
+      features: { include: { feature: true } },
     },
     orderBy: { order: "asc" },
   });
@@ -18,16 +12,17 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const { name, description, path } = await req.json();
+  const { name, description, path, imagePath } = await req.json();
   const last = await prisma.screen.findFirst({ orderBy: { order: "desc" } });
   const screen = await prisma.screen.create({
     data: {
       name,
       description: description ?? "",
       path: path ?? "",
+      imagePath: imagePath ?? "",
       order: (last?.order ?? 0) + 1,
     },
-    include: { specs: true },
+    include: { features: { include: { feature: true } } },
   });
   return NextResponse.json(screen, { status: 201 });
 }

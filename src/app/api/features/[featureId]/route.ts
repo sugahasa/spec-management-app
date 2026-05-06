@@ -10,10 +10,8 @@ export async function PUT(req: Request, { params }: Params) {
     where: { id: featureId },
     data: { name, description: description ?? "" },
     include: {
-      specs: {
-        orderBy: { order: "asc" },
-        include: { screens: { include: { screen: true } } },
-      },
+      specs: { orderBy: { order: "asc" } },
+      screens: { include: { screen: true } },
     },
   });
   return NextResponse.json(feature);

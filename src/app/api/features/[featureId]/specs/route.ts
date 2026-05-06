@@ -21,7 +21,7 @@ export async function POST(req: Request, { params }: Params) {
       status: status ?? "DRAFT",
       order: (last?.order ?? 0) + 1,
     },
-    include: { screens: { include: { screen: true } } },
+    include: {},
   });
   return NextResponse.json(spec, { status: 201 });
 }

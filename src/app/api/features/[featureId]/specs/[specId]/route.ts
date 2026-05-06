@@ -9,7 +9,7 @@ export async function PUT(req: Request, { params }: Params) {
   const spec = await prisma.specification.update({
     where: { id: specId },
     data: { title, given: given ?? "", when: when ?? "", then: then ?? "", priority, status },
-    include: { screens: { include: { screen: true } } },
+    include: {},
   });
   return NextResponse.json(spec);
 }

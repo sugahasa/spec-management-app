@@ -1,22 +1,23 @@
 export type SpecPriority = "HIGH" | "MEDIUM" | "LOW";
 export type SpecStatus = "DRAFT" | "REVIEW" | "APPROVED" | "DEPRECATED";
 
+export interface FeatureScreen {
+  id: string;
+  featureId: string;
+  screenId: string;
+  screen: Screen;
+}
+
 export interface Screen {
   id: string;
   name: string;
   description: string;
   path: string;
+  imagePath: string;
   order: number;
-  specs: SpecificationScreen[];
+  features: FeatureScreen[];
   createdAt: string;
   updatedAt: string;
-}
-
-export interface SpecificationScreen {
-  id: string;
-  specificationId: string;
-  screenId: string;
-  screen: Screen;
 }
 
 export interface Specification {
@@ -29,7 +30,6 @@ export interface Specification {
   priority: SpecPriority;
   status: SpecStatus;
   order: number;
-  screens: SpecificationScreen[];
   createdAt: string;
   updatedAt: string;
 }
@@ -40,6 +40,7 @@ export interface Feature {
   description: string;
   order: number;
   specs: Specification[];
+  screens: FeatureScreen[];
   createdAt: string;
   updatedAt: string;
 }
