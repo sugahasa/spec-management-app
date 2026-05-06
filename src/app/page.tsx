@@ -192,12 +192,18 @@ export default function HomePage() {
         <form onSubmit={handleAddFeature} className="mb-6 bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
           <p className="text-xs font-bold text-indigo-500 uppercase tracking-widest mb-3">Feature</p>
           <div className="flex flex-col gap-3">
-            <input value={featureName} onChange={(e) => setFeatureName(e.target.value)}
-              placeholder="機能名（ユーザーストーリー） *"
-              className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" required />
-            <input value={featureDesc} onChange={(e) => setFeatureDesc(e.target.value)}
-              placeholder="説明（任意）"
-              className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+            <div>
+              <label className="text-xs font-medium text-gray-600 block mb-1">機能名 *</label>
+              <input value={featureName} onChange={(e) => setFeatureName(e.target.value)}
+                placeholder="例：ユーザー認証"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" required />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-gray-600 block mb-1">説明</label>
+              <input value={featureDesc} onChange={(e) => setFeatureDesc(e.target.value)}
+                placeholder="この機能の目的・概要（任意）"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+            </div>
             <div className="flex gap-2 justify-end">
               <button type="button" onClick={() => setShowFeatureForm(false)} className="text-sm px-3 py-1.5 border border-gray-300 rounded-lg hover:bg-gray-50">キャンセル</button>
               <button type="submit" className="text-sm px-3 py-1.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">追加</button>
@@ -258,25 +264,28 @@ export default function HomePage() {
                   <form onSubmit={(e) => handleAddSpec(e, feature.id)} className="border-b border-gray-100 bg-indigo-50/50 px-5 py-4">
                     <p className="text-xs font-bold text-indigo-500 uppercase tracking-widest mb-3">New Scenario</p>
                     <div className="flex flex-col gap-3">
-                      <input value={newSpec.title} onChange={(e) => setNewSpec((p) => ({ ...p, title: e.target.value }))}
-                        placeholder="Scenario: シナリオタイトル *"
-                        className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" required />
-                      <GherkinField label="Given" placeholder="前提条件：シナリオ開始時のシステム・データ状態"
+                      <div>
+                        <label className="text-xs font-medium text-gray-600 block mb-1">Scenario タイトル *</label>
+                        <input value={newSpec.title} onChange={(e) => setNewSpec((p) => ({ ...p, title: e.target.value }))}
+                          placeholder="例：ログインに成功する"
+                          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" required />
+                      </div>
+                      <GherkinField label="Given" placeholder="シナリオ開始時のシステム・データ状態"
                         value={newSpec.given} onChange={(v) => setNewSpec((p) => ({ ...p, given: v }))} color="blue" />
-                      <GherkinField label="When" placeholder="操作・イベント：ユーザーまたは外部要因のアクション"
+                      <GherkinField label="When" placeholder="ユーザーまたは外部要因のアクション"
                         value={newSpec.when} onChange={(v) => setNewSpec((p) => ({ ...p, when: v }))} color="amber" />
-                      <GherkinField label="Then" placeholder="期待される結果：システムの観測可能な振る舞い"
+                      <GherkinField label="Then" placeholder="システムの観測可能な振る舞い"
                         value={newSpec.then} onChange={(v) => setNewSpec((p) => ({ ...p, then: v }))} color="green" />
                       <div className="flex gap-3">
                         <div className="flex-1">
-                          <label className="text-xs text-gray-500 block mb-1">優先度</label>
+                          <label className="text-xs font-medium text-gray-600 block mb-1">優先度</label>
                           <select value={newSpec.priority} onChange={(e) => setNewSpec((p) => ({ ...p, priority: e.target.value as SpecPriority }))}
                             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
                             {PRIORITIES.map((p) => <option key={p} value={p}>{PRIORITY_LABEL[p]}</option>)}
                           </select>
                         </div>
                         <div className="flex-1">
-                          <label className="text-xs text-gray-500 block mb-1">ステータス</label>
+                          <label className="text-xs font-medium text-gray-600 block mb-1">ステータス</label>
                           <select value={newSpec.status} onChange={(e) => setNewSpec((p) => ({ ...p, status: e.target.value as SpecStatus }))}
                             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
                             {STATUSES.map((s) => <option key={s} value={s}>{STATUS_LABEL[s]}</option>)}
@@ -301,9 +310,12 @@ export default function HomePage() {
                         <div key={spec.id} className="px-5 py-4">
                           {editingSpecId === spec.id ? (
                             <div className="flex flex-col gap-3">
-                              <input value={editSpec.title} onChange={(e) => setEditSpec((p) => ({ ...p, title: e.target.value }))}
-                                placeholder="Scenario:"
-                                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                              <div>
+                                <label className="text-xs font-medium text-gray-600 block mb-1">Scenario タイトル</label>
+                                <input value={editSpec.title} onChange={(e) => setEditSpec((p) => ({ ...p, title: e.target.value }))}
+                                  placeholder="例：ログインに成功する"
+                                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                              </div>
                               <GherkinField label="Given" placeholder="前提条件"
                                 value={editSpec.given} onChange={(v) => setEditSpec((p) => ({ ...p, given: v }))} color="blue" />
                               <GherkinField label="When" placeholder="操作・イベント"
@@ -311,14 +323,20 @@ export default function HomePage() {
                               <GherkinField label="Then" placeholder="期待される結果"
                                 value={editSpec.then} onChange={(v) => setEditSpec((p) => ({ ...p, then: v }))} color="green" />
                               <div className="flex gap-3">
-                                <select value={editSpec.priority} onChange={(e) => setEditSpec((p) => ({ ...p, priority: e.target.value as SpecPriority }))}
-                                  className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm">
-                                  {PRIORITIES.map((p) => <option key={p} value={p}>{PRIORITY_LABEL[p]}</option>)}
-                                </select>
-                                <select value={editSpec.status} onChange={(e) => setEditSpec((p) => ({ ...p, status: e.target.value as SpecStatus }))}
-                                  className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm">
-                                  {STATUSES.map((s) => <option key={s} value={s}>{STATUS_LABEL[s]}</option>)}
-                                </select>
+                                <div className="flex-1">
+                                  <label className="text-xs font-medium text-gray-600 block mb-1">優先度</label>
+                                  <select value={editSpec.priority} onChange={(e) => setEditSpec((p) => ({ ...p, priority: e.target.value as SpecPriority }))}
+                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                                    {PRIORITIES.map((p) => <option key={p} value={p}>{PRIORITY_LABEL[p]}</option>)}
+                                  </select>
+                                </div>
+                                <div className="flex-1">
+                                  <label className="text-xs font-medium text-gray-600 block mb-1">ステータス</label>
+                                  <select value={editSpec.status} onChange={(e) => setEditSpec((p) => ({ ...p, status: e.target.value as SpecStatus }))}
+                                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                                    {STATUSES.map((s) => <option key={s} value={s}>{STATUS_LABEL[s]}</option>)}
+                                  </select>
+                                </div>
                               </div>
                               <div className="flex gap-2 justify-end">
                                 <button onClick={() => setEditingSpecId(null)} className="text-sm px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-50">キャンセル</button>
