@@ -7,39 +7,51 @@ datasource db {
   provider = "sqlite"
 }
 
-model Application {
-  id          String    @id @default(cuid())
+model Screen {
+  id          String                @id @default(cuid())
   name        String
-  description String    @default("")
-  features    Feature[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  description String                @default("")
+  path        String                @default("")
+  order       Int                   @default(0)
+  specs       SpecificationScreen[]
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
 }
 
 model Feature {
-  id            String          @id @default(cuid())
-  name          String
-  description   String          @default("")
-  order         Int             @default(0)
-  application   Application     @relation(fields: [applicationId], references: [id], onDelete: Cascade)
-  applicationId String
-  specs         Specification[]
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+  id          String          @id @default(cuid())
+  name        String
+  description String          @default("")
+  order       Int             @default(0)
+  specs       Specification[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
 }
 
 model Specification {
-  id                 String       @id @default(cuid())
-  title              String
-  description        String       @default("")
-  acceptanceCriteria String       @default("")
-  priority           SpecPriority @default(MEDIUM)
-  status             SpecStatus   @default(DRAFT)
-  order              Int          @default(0)
-  feature            Feature      @relation(fields: [featureId], references: [id], onDelete: Cascade)
-  featureId          String
-  createdAt          DateTime     @default(now())
-  updatedAt          DateTime     @updatedAt
+  id        String                @id @default(cuid())
+  feature   Feature               @relation(fields: [featureId], references: [id], onDelete: Cascade)
+  featureId String
+  title     String
+  given     String                @default("")
+  when      String                @default("")
+  then      String                @default("")
+  priority  SpecPriority          @default(MEDIUM)
+  status    SpecStatus            @default(DRAFT)
+  order     Int                   @default(0)
+  screens   SpecificationScreen[]
+  createdAt DateTime              @default(now())
+  updatedAt DateTime              @updatedAt
+}
+
+model SpecificationScreen {
+  id              String        @id @default(cuid())
+  specification   Specification @relation(fields: [specificationId], references: [id], onDelete: Cascade)
+  specificationId String
+  screen          Screen        @relation(fields: [screenId], references: [id], onDelete: Cascade)
+  screenId        String
+
+  @@unique([specificationId, screenId])
 }
 
 enum SpecPriority {

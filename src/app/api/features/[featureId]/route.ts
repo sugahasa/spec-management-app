@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-type Params = { params: Promise<{ id: string; featureId: string }> };
+type Params = { params: Promise<{ featureId: string }> };
 
 export async function PUT(req: Request, { params }: Params) {
   const { featureId } = await params;
@@ -9,7 +9,12 @@ export async function PUT(req: Request, { params }: Params) {
   const feature = await prisma.feature.update({
     where: { id: featureId },
     data: { name, description: description ?? "" },
-    include: { specs: { orderBy: { order: "asc" } } },
+    include: {
+      specs: {
+        orderBy: { order: "asc" },
+        include: { screens: { include: { screen: true } } },
+      },
+    },
   });
   return NextResponse.json(feature);
 }

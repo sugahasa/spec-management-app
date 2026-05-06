@@ -10,7 +10,7 @@ const geistSans = Geist({
 
 export const metadata: Metadata = {
   title: "仕様管理",
-  description: "アプリケーション仕様を管理するツール",
+  description: "アプリケーション仕様をGherkin形式で管理するツール",
 };
 
 export default function RootLayout({
@@ -27,8 +27,11 @@ export default function RootLayout({
               SpecManager
             </Link>
             <nav className="flex gap-6 text-sm font-medium">
-              <Link href="/applications" className="text-gray-600 hover:text-indigo-600 transition-colors">
-                アプリケーション
+              <Link href="/" className="text-gray-600 hover:text-indigo-600 transition-colors">
+                機能・シナリオ
+              </Link>
+              <Link href="/screens" className="text-gray-600 hover:text-indigo-600 transition-colors">
+                画面
               </Link>
             </nav>
           </div>

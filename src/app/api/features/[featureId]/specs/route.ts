@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-type Params = { params: Promise<{ id: string; featureId: string }> };
+type Params = { params: Promise<{ featureId: string }> };
 
 export async function POST(req: Request, { params }: Params) {
   const { featureId } = await params;
-  const { title, description, acceptanceCriteria, priority, status } = await req.json();
+  const { title, given, when, then, priority, status } = await req.json();
   const last = await prisma.specification.findFirst({
     where: { featureId },
     orderBy: { order: "desc" },
@@ -14,12 +14,14 @@ export async function POST(req: Request, { params }: Params) {
     data: {
       featureId,
       title,
-      description: description ?? "",
-      acceptanceCriteria: acceptanceCriteria ?? "",
+      given: given ?? "",
+      when: when ?? "",
+      then: then ?? "",
       priority: priority ?? "MEDIUM",
       status: status ?? "DRAFT",
       order: (last?.order ?? 0) + 1,
     },
+    include: { screens: { include: { screen: true } } },
   });
   return NextResponse.json(spec, { status: 201 });
 }

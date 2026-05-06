@@ -1,20 +1,15 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-type Params = { params: Promise<{ id: string; featureId: string; specId: string }> };
+type Params = { params: Promise<{ featureId: string; specId: string }> };
 
 export async function PUT(req: Request, { params }: Params) {
   const { specId } = await params;
-  const { title, description, acceptanceCriteria, priority, status } = await req.json();
+  const { title, given, when, then, priority, status } = await req.json();
   const spec = await prisma.specification.update({
     where: { id: specId },
-    data: {
-      title,
-      description: description ?? "",
-      acceptanceCriteria: acceptanceCriteria ?? "",
-      priority,
-      status,
-    },
+    data: { title, given: given ?? "", when: when ?? "", then: then ?? "", priority, status },
+    include: { screens: { include: { screen: true } } },
   });
   return NextResponse.json(spec);
 }
